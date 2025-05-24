@@ -42,24 +42,6 @@ public class AppConstants {
 
 	public static final String AUTHOR_MICHAEL_C_FEATHERS = "Michael C. Feathers";
 
-	public static final Integer TWO_BOOKS = 2;
-
-	public static final Integer THREE_BOOKS = 3;
-
-	public static final Integer FOUR_BOOKS = 4;
-
-	public static final Integer FIVE_BOOKS = 5;
-
-	public static final Integer ZERO_PERCENTAGE_OFFER = 0;
-
-	public static final Integer FIVE_PERCENTAGE_OFFER = 5;
-
-	public static final Integer TEN_PERCENTAGE_OFFER = 10;
-
-	public static final Integer TWENTY_PERCENTAGE_OFFER = 20;
-
-	public static final Integer TWENTYFIVE_PERCENTAGE_OFFER = 25;
-
 	public static final Double PERCENTAGE_DIVISOR = 100.0;
 
 	public static final Double PRICE_50 = 50.0;
