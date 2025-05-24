@@ -1,11 +1,13 @@
 package com.store.book.service.impl;
 
 import static com.store.book.constants.AppConstants.BASE_VALUE;
+import static com.store.book.constants.AppConstants.FIVE_BOOKS;
 import static com.store.book.constants.AppConstants.FIVE_PERCENTAGE_OFFER;
 import static com.store.book.constants.AppConstants.FOUR_BOOKS;
 import static com.store.book.constants.AppConstants.PERCENTAGE_DIVISOR;
 import static com.store.book.constants.AppConstants.TEN_PERCENTAGE_OFFER;
 import static com.store.book.constants.AppConstants.THREE_BOOKS;
+import static com.store.book.constants.AppConstants.TWENTYFIVE_PERCENTAGE_OFFER;
 import static com.store.book.constants.AppConstants.TWENTY_PERCENTAGE_OFFER;
 import static com.store.book.constants.AppConstants.TWO_BOOKS;
 import static com.store.book.constants.AppConstants.ZERO_PERCENTAGE_OFFER;
@@ -34,6 +36,9 @@ public class OrderProcessingServiceImpl implements OrderProcessingService {
 		} else if (basket.getBooksToOrder().size() == FOUR_BOOKS) {
 			Double discountedPrice = computePriceAfterDiscount(orderTotal, TWENTY_PERCENTAGE_OFFER);
 			return new OrderPrice(orderTotal, discountedPrice, TWENTY_PERCENTAGE_OFFER);
+		} else if (basket.getBooksToOrder().size() == FIVE_BOOKS) {
+			Double discountedPrice = computePriceAfterDiscount(orderTotal, TWENTYFIVE_PERCENTAGE_OFFER);
+			return new OrderPrice(orderTotal, discountedPrice, TWENTYFIVE_PERCENTAGE_OFFER);
 		} else {
 			return new OrderPrice(orderTotal, orderTotal, ZERO_PERCENTAGE_OFFER);
 		}
