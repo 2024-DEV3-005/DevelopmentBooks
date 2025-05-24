@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.store.book.service.OrderProcessingService;
 import com.store.book.service.model.Basket;
 import com.store.book.service.model.Book;
+import com.store.book.service.model.BookQuantity;
 import com.store.book.service.model.Discount;
 import com.store.book.service.model.OrderPrice;
 
@@ -31,7 +32,7 @@ public class OrderProcessingServiceImpl implements OrderProcessingService {
 	}
 
 	private Double calculateTotalPrice(Basket basket) {
-		return basket.getBooksToOrder().stream().mapToDouble(Book::getPrice).sum();
+		return basket.getBooksToOrder().stream().map(BookQuantity::getBook).mapToDouble(Book::getPrice).sum();
 	}
 
 }

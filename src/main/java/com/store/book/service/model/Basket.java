@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 public class Basket {
 
-	private List<Book> booksToOrder;
+	private List<BookQuantity> booksToOrder;
 
 }

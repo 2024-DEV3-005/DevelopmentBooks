@@ -13,6 +13,7 @@ import static com.store.book.constants.TestConstants.PRICE_FOR_FOUR_BOOKS;
 import static com.store.book.constants.TestConstants.PRICE_FOR_THE_BOOK;
 import static com.store.book.constants.TestConstants.PRICE_FOR_THREE_BOOKS;
 import static com.store.book.constants.TestConstants.PRICE_FOR_TWO_BOOKS;
+import static com.store.book.constants.TestConstants.QUANTITY_1;
 import static com.store.book.constants.TestConstants.SERIAL_NO_FOR_FIFTH_BOOK;
 import static com.store.book.constants.TestConstants.SERIAL_NO_FOR_FIRST_BOOK;
 import static com.store.book.constants.TestConstants.SERIAL_NO_FOR_FOURTH_BOOK;
@@ -32,7 +33,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.store.book.service.model.Basket;
-import com.store.book.service.model.Book;
+import com.store.book.service.model.BookQuantity;
 import com.store.book.service.model.BookStore;
 import com.store.book.service.model.OrderPrice;
 
@@ -46,7 +47,7 @@ class OrderProcessingServiceImplTest {
 	@Test
 	@DisplayName(value = "Should get price as 50.0 for one Book")
 	void shouldReturnThePriceOfTheBookWithGivenSerialNumber() {
-		Book bookOne = BookStore.fetchBySerialNo(SERIAL_NO_FOR_FIRST_BOOK);
+		BookQuantity bookOne = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_FIRST_BOOK), QUANTITY_1);
 		Basket basket = new Basket();
 		basket.setBooksToOrder(List.of(bookOne));
 
@@ -60,8 +61,8 @@ class OrderProcessingServiceImplTest {
 	@Test
 	@DisplayName(value = "Should get 5% Discount for 2 different books")
 	void shouldReturnFivePercentageDiscountForTwoDifferentBooks() {
-		Book bookOne = BookStore.fetchBySerialNo(SERIAL_NO_FOR_FIRST_BOOK);
-		Book bookTwo = BookStore.fetchBySerialNo(SERIAL_NO_FOR_SECOND_BOOK);
+		BookQuantity bookOne = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_FIRST_BOOK), QUANTITY_1);
+		BookQuantity bookTwo = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_SECOND_BOOK), QUANTITY_1);
 		Basket basket = new Basket();
 		basket.setBooksToOrder(List.of(bookOne, bookTwo));
 
@@ -71,13 +72,13 @@ class OrderProcessingServiceImplTest {
 				() -> assertEquals(OFFER_PERCENTAGE_FOR_TWO_BOOKS, billedAmount.getDiscountPercentage()),
 				() -> assertEquals(PRICE_AFTER_DISCOUNT_FOR_TWO_BOOKS, billedAmount.getPriceAfterDiscount()));
 	}
-	
+
 	@Test
 	@DisplayName(value = "Should get 10% Discount for 3 different books")
 	void shouldReturnTenPercentageDiscountForThreeDifferentBooks() {
-		Book bookOne = BookStore.fetchBySerialNo(SERIAL_NO_FOR_FIRST_BOOK);
-		Book bookTwo = BookStore.fetchBySerialNo(SERIAL_NO_FOR_SECOND_BOOK);
-		Book bookThree = BookStore.fetchBySerialNo(SERIAL_NO_FOR_THIRD_BOOK);
+		BookQuantity bookOne = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_FIRST_BOOK), QUANTITY_1);
+		BookQuantity bookTwo = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_SECOND_BOOK), QUANTITY_1);
+		BookQuantity bookThree = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_THIRD_BOOK), QUANTITY_1);
 		Basket basket = new Basket();
 		basket.setBooksToOrder(List.of(bookOne, bookTwo, bookThree));
 
@@ -87,14 +88,14 @@ class OrderProcessingServiceImplTest {
 				() -> assertEquals(OFFER_PERCENTAGE_FOR_THREE_BOOKS, billedAmount.getDiscountPercentage()),
 				() -> assertEquals(PRICE_AFTER_DISCOUNT_FOR_THREE_BOOKS, billedAmount.getPriceAfterDiscount()));
 	}
-	
+
 	@Test
 	@DisplayName(value = "Should get 20% Discount for 4 different books")
 	void shouldReturnTwentyPercentageDiscountForFourDifferentBooks() {
-		Book bookOne = BookStore.fetchBySerialNo(SERIAL_NO_FOR_FIRST_BOOK);
-		Book bookTwo = BookStore.fetchBySerialNo(SERIAL_NO_FOR_SECOND_BOOK);
-		Book bookThree = BookStore.fetchBySerialNo(SERIAL_NO_FOR_THIRD_BOOK);
-		Book bookFour = BookStore.fetchBySerialNo(SERIAL_NO_FOR_FOURTH_BOOK);
+		BookQuantity bookOne = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_FIRST_BOOK), QUANTITY_1);
+		BookQuantity bookTwo = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_SECOND_BOOK), QUANTITY_1);
+		BookQuantity bookThree = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_THIRD_BOOK), QUANTITY_1);
+		BookQuantity bookFour = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_FOURTH_BOOK), QUANTITY_1);
 		Basket basket = new Basket();
 		basket.setBooksToOrder(List.of(bookOne, bookTwo, bookThree, bookFour));
 
@@ -104,15 +105,15 @@ class OrderProcessingServiceImplTest {
 				() -> assertEquals(OFFER_PERCENTAGE_FOR_FOUR_BOOKS, billedAmount.getDiscountPercentage()),
 				() -> assertEquals(PRICE_AFTER_DISCOUNT_FOR_FOUR_BOOKS, billedAmount.getPriceAfterDiscount()));
 	}
-	
+
 	@Test
 	@DisplayName(value = "Should get 25% Discount for 5 different books")
 	void shouldReturnTwentyFivePercentageDiscountForFiveDifferentBooks() {
-		Book bookOne = BookStore.fetchBySerialNo(SERIAL_NO_FOR_FIRST_BOOK);
-		Book bookTwo = BookStore.fetchBySerialNo(SERIAL_NO_FOR_SECOND_BOOK);
-		Book bookThree = BookStore.fetchBySerialNo(SERIAL_NO_FOR_THIRD_BOOK);
-		Book bookFour = BookStore.fetchBySerialNo(SERIAL_NO_FOR_FOURTH_BOOK);
-		Book bookFive = BookStore.fetchBySerialNo(SERIAL_NO_FOR_FIFTH_BOOK);
+		BookQuantity bookOne = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_FIRST_BOOK), QUANTITY_1);
+		BookQuantity bookTwo = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_SECOND_BOOK), QUANTITY_1);
+		BookQuantity bookThree = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_THIRD_BOOK), QUANTITY_1);
+		BookQuantity bookFour = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_FOURTH_BOOK), QUANTITY_1);
+		BookQuantity bookFive = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_FIFTH_BOOK), QUANTITY_1);
 		Basket basket = new Basket();
 		basket.setBooksToOrder(List.of(bookOne, bookTwo, bookThree, bookFour, bookFive));
 
@@ -122,5 +123,5 @@ class OrderProcessingServiceImplTest {
 				() -> assertEquals(OFFER_PERCENTAGE_FOR_FIVE_BOOKS, billedAmount.getDiscountPercentage()),
 				() -> assertEquals(PRICE_AFTER_DISCOUNT_FOR_FIVE_BOOKS, billedAmount.getPriceAfterDiscount()));
 	}
-	
+
 }

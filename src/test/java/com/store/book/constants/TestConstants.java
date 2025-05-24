@@ -16,6 +16,8 @@ public class TestConstants {
 
 	public static final Integer OFFER_PERCENTAGE_FOR_FIVE_BOOKS = 25;
 
+	public static final Integer QUANTITY_1 = 1;
+
 	public static final String SERIAL_NO_FOR_FIRST_BOOK = "1";
 
 	public static final String SERIAL_NO_FOR_SECOND_BOOK = "2";
