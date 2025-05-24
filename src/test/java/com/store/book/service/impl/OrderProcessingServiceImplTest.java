@@ -24,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -47,9 +49,9 @@ class OrderProcessingServiceImplTest {
 	@Test
 	@DisplayName(value = "Should get price as 50.0 for one Book")
 	void shouldReturnThePriceOfTheBookWithGivenSerialNumber() {
-		BookQuantity bookOne = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_FIRST_BOOK), QUANTITY_1);
+		List<BookQuantity> bookQtyList = getBookQuantityList(Map.of(SERIAL_NO_FOR_FIRST_BOOK, QUANTITY_1));
 		Basket basket = new Basket();
-		basket.setBooksToOrder(List.of(bookOne));
+		basket.setBooksToOrder(bookQtyList);
 
 		OrderPrice billedAmount = orderProcessingService.getPrice(basket);
 
@@ -61,10 +63,10 @@ class OrderProcessingServiceImplTest {
 	@Test
 	@DisplayName(value = "Should get 5% Discount for 2 different books")
 	void shouldReturnFivePercentageDiscountForTwoDifferentBooks() {
-		BookQuantity bookOne = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_FIRST_BOOK), QUANTITY_1);
-		BookQuantity bookTwo = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_SECOND_BOOK), QUANTITY_1);
+		List<BookQuantity> bookQtyList = getBookQuantityList(
+				Map.of(SERIAL_NO_FOR_FIRST_BOOK, QUANTITY_1, SERIAL_NO_FOR_SECOND_BOOK, QUANTITY_1));
 		Basket basket = new Basket();
-		basket.setBooksToOrder(List.of(bookOne, bookTwo));
+		basket.setBooksToOrder(bookQtyList);
 
 		OrderPrice billedAmount = orderProcessingService.getPrice(basket);
 
@@ -76,11 +78,10 @@ class OrderProcessingServiceImplTest {
 	@Test
 	@DisplayName(value = "Should get 10% Discount for 3 different books")
 	void shouldReturnTenPercentageDiscountForThreeDifferentBooks() {
-		BookQuantity bookOne = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_FIRST_BOOK), QUANTITY_1);
-		BookQuantity bookTwo = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_SECOND_BOOK), QUANTITY_1);
-		BookQuantity bookThree = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_THIRD_BOOK), QUANTITY_1);
+		List<BookQuantity> bookQtyList = getBookQuantityList(Map.of(SERIAL_NO_FOR_FIRST_BOOK, QUANTITY_1,
+				SERIAL_NO_FOR_SECOND_BOOK, QUANTITY_1, SERIAL_NO_FOR_THIRD_BOOK, QUANTITY_1));
 		Basket basket = new Basket();
-		basket.setBooksToOrder(List.of(bookOne, bookTwo, bookThree));
+		basket.setBooksToOrder(bookQtyList);
 
 		OrderPrice billedAmount = orderProcessingService.getPrice(basket);
 
@@ -92,12 +93,11 @@ class OrderProcessingServiceImplTest {
 	@Test
 	@DisplayName(value = "Should get 20% Discount for 4 different books")
 	void shouldReturnTwentyPercentageDiscountForFourDifferentBooks() {
-		BookQuantity bookOne = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_FIRST_BOOK), QUANTITY_1);
-		BookQuantity bookTwo = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_SECOND_BOOK), QUANTITY_1);
-		BookQuantity bookThree = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_THIRD_BOOK), QUANTITY_1);
-		BookQuantity bookFour = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_FOURTH_BOOK), QUANTITY_1);
+		List<BookQuantity> bookQtyList = getBookQuantityList(
+				Map.of(SERIAL_NO_FOR_FIRST_BOOK, QUANTITY_1, SERIAL_NO_FOR_SECOND_BOOK, QUANTITY_1,
+						SERIAL_NO_FOR_THIRD_BOOK, QUANTITY_1, SERIAL_NO_FOR_FOURTH_BOOK, QUANTITY_1));
 		Basket basket = new Basket();
-		basket.setBooksToOrder(List.of(bookOne, bookTwo, bookThree, bookFour));
+		basket.setBooksToOrder(bookQtyList);
 
 		OrderPrice billedAmount = orderProcessingService.getPrice(basket);
 
@@ -109,19 +109,34 @@ class OrderProcessingServiceImplTest {
 	@Test
 	@DisplayName(value = "Should get 25% Discount for 5 different books")
 	void shouldReturnTwentyFivePercentageDiscountForFiveDifferentBooks() {
-		BookQuantity bookOne = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_FIRST_BOOK), QUANTITY_1);
-		BookQuantity bookTwo = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_SECOND_BOOK), QUANTITY_1);
-		BookQuantity bookThree = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_THIRD_BOOK), QUANTITY_1);
-		BookQuantity bookFour = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_FOURTH_BOOK), QUANTITY_1);
-		BookQuantity bookFive = new BookQuantity(BookStore.fetchBySerialNo(SERIAL_NO_FOR_FIFTH_BOOK), QUANTITY_1);
+		List<BookQuantity> bookQtyList = getBookQuantityList(Map.of(SERIAL_NO_FOR_FIRST_BOOK, QUANTITY_1,
+				SERIAL_NO_FOR_SECOND_BOOK, QUANTITY_1, SERIAL_NO_FOR_THIRD_BOOK, QUANTITY_1, SERIAL_NO_FOR_FOURTH_BOOK,
+				QUANTITY_1, SERIAL_NO_FOR_FIFTH_BOOK, QUANTITY_1));
 		Basket basket = new Basket();
-		basket.setBooksToOrder(List.of(bookOne, bookTwo, bookThree, bookFour, bookFive));
+		basket.setBooksToOrder(bookQtyList);
 
 		OrderPrice billedAmount = orderProcessingService.getPrice(basket);
 
 		assertAll(() -> assertEquals(PRICE_FOR_FIVE_BOOKS, billedAmount.getTotalPrice()),
 				() -> assertEquals(OFFER_PERCENTAGE_FOR_FIVE_BOOKS, billedAmount.getDiscountPercentage()),
 				() -> assertEquals(PRICE_AFTER_DISCOUNT_FOR_FIVE_BOOKS, billedAmount.getPriceAfterDiscount()));
+	}
+
+	private List<BookQuantity> getBookQuantityList(Map<String, Integer> bookData) {
+		return bookData.entrySet().stream()
+				.map(book -> createBookWithQuantity(getSerialNumber(book), getQuantity(book))).toList();
+	}
+
+	private BookQuantity createBookWithQuantity(String serialNo, Integer quantity) {
+		return new BookQuantity(BookStore.fetchBySerialNo(serialNo), quantity);
+	}
+
+	private String getSerialNumber(Entry<String, Integer> book) {
+		return book.getKey();
+	}
+
+	private Integer getQuantity(Entry<String, Integer> book) {
+		return book.getValue();
 	}
 
 }
