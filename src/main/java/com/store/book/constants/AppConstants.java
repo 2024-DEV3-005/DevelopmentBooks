@@ -12,11 +12,15 @@ public class AppConstants {
 
 	public static final String BOOK_THREE = "3";
 
+	public static final String BOOK_FOUR = "4";
+
 	public static final String YEAR_2008 = "2008";
 
 	public static final String YEAR_2011 = "2011";
 
 	public static final String YEAR_2017 = "2017";
+
+	public static final String YEAR_2003 = "2003";
 
 	public static final String CLEAN_CODE = "Clean Code";
 
@@ -24,11 +28,17 @@ public class AppConstants {
 
 	public static final String CLEAN_ARCHITECTURE = "Clean Architecture";
 
+	public static final String TEST_DRIVEN_DEVELOPMENT = "Test Driven Development by Example";
+
 	public static final String AUTHOR_ROBERT_MARTIN = "Robert Martin";
+
+	public static final String AUTHOR_KENT_BECK = "Kent Beck";
 
 	public static final Integer TWO_BOOKS = 2;
 
 	public static final Integer THREE_BOOKS = 3;
+
+	public static final Integer FOUR_BOOKS = 4;
 
 	public static final Integer ZERO_PERCENTAGE_OFFER = 0;
 
@@ -36,9 +46,12 @@ public class AppConstants {
 
 	public static final Integer TEN_PERCENTAGE_OFFER = 10;
 
+	public static final Integer TWENTY_PERCENTAGE_OFFER = 20;
+
 	public static final Double PERCENTAGE_DIVISOR = 100.0;
 
 	public static final Double PRICE_50 = 50.0;
 
 	public static final Double BASE_VALUE = 1.0;
+
 }

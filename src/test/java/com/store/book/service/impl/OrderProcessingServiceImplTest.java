@@ -1,13 +1,17 @@
 package com.store.book.service.impl;
 
+import static com.store.book.constants.TestConstants.OFFER_PERCENTAGE_FOR_FOUR_BOOKS;
 import static com.store.book.constants.TestConstants.OFFER_PERCENTAGE_FOR_THREE_BOOKS;
 import static com.store.book.constants.TestConstants.OFFER_PERCENTAGE_FOR_TWO_BOOKS;
+import static com.store.book.constants.TestConstants.PRICE_AFTER_DISCOUNT_FOR_FOUR_BOOKS;
 import static com.store.book.constants.TestConstants.PRICE_AFTER_DISCOUNT_FOR_THREE_BOOKS;
 import static com.store.book.constants.TestConstants.PRICE_AFTER_DISCOUNT_FOR_TWO_BOOKS;
+import static com.store.book.constants.TestConstants.PRICE_FOR_FOUR_BOOKS;
 import static com.store.book.constants.TestConstants.PRICE_FOR_THE_BOOK;
 import static com.store.book.constants.TestConstants.PRICE_FOR_THREE_BOOKS;
 import static com.store.book.constants.TestConstants.PRICE_FOR_TWO_BOOKS;
 import static com.store.book.constants.TestConstants.SERIAL_NO_FOR_FIRST_BOOK;
+import static com.store.book.constants.TestConstants.SERIAL_NO_FOR_FOURTH_BOOK;
 import static com.store.book.constants.TestConstants.SERIAL_NO_FOR_SECOND_BOOK;
 import static com.store.book.constants.TestConstants.SERIAL_NO_FOR_THIRD_BOOK;
 import static com.store.book.constants.TestConstants.ZERO_PERCENTAGE_OFFER;
@@ -78,5 +82,22 @@ class OrderProcessingServiceImplTest {
 		assertAll(() -> assertEquals(PRICE_FOR_THREE_BOOKS, billedAmount.getTotalPrice()),
 				() -> assertEquals(OFFER_PERCENTAGE_FOR_THREE_BOOKS, billedAmount.getDiscountPercentage()),
 				() -> assertEquals(PRICE_AFTER_DISCOUNT_FOR_THREE_BOOKS, billedAmount.getPriceAfterDiscount()));
+	}
+	
+	@Test
+	@DisplayName(value = "Should get 20% Discount for 4 different books")
+	void shouldReturnTwentyPercentageDiscountForFourDifferentBooks() {
+		Book bookOne = BookStore.fetchBySerialNo(SERIAL_NO_FOR_FIRST_BOOK);
+		Book bookTwo = BookStore.fetchBySerialNo(SERIAL_NO_FOR_SECOND_BOOK);
+		Book bookThree = BookStore.fetchBySerialNo(SERIAL_NO_FOR_THIRD_BOOK);
+		Book bookFour = BookStore.fetchBySerialNo(SERIAL_NO_FOR_FOURTH_BOOK);
+		Basket basket = new Basket();
+		basket.setBooksToOrder(List.of(bookOne, bookTwo, bookThree, bookFour));
+
+		OrderPrice billedAmount = orderProcessingService.getPrice(basket);
+
+		assertAll(() -> assertEquals(PRICE_FOR_FOUR_BOOKS, billedAmount.getTotalPrice()),
+				() -> assertEquals(OFFER_PERCENTAGE_FOR_FOUR_BOOKS, billedAmount.getDiscountPercentage()),
+				() -> assertEquals(PRICE_AFTER_DISCOUNT_FOR_FOUR_BOOKS, billedAmount.getPriceAfterDiscount()));
 	}
 }
