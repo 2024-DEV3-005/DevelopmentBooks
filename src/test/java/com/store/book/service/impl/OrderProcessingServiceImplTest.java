@@ -1,11 +1,15 @@
 package com.store.book.service.impl;
 
+import static com.store.book.constants.TestConstants.OFFER_PERCENTAGE_FOR_THREE_BOOKS;
 import static com.store.book.constants.TestConstants.OFFER_PERCENTAGE_FOR_TWO_BOOKS;
+import static com.store.book.constants.TestConstants.PRICE_AFTER_DISCOUNT_FOR_THREE_BOOKS;
 import static com.store.book.constants.TestConstants.PRICE_AFTER_DISCOUNT_FOR_TWO_BOOKS;
 import static com.store.book.constants.TestConstants.PRICE_FOR_THE_BOOK;
+import static com.store.book.constants.TestConstants.PRICE_FOR_THREE_BOOKS;
 import static com.store.book.constants.TestConstants.PRICE_FOR_TWO_BOOKS;
 import static com.store.book.constants.TestConstants.SERIAL_NO_FOR_FIRST_BOOK;
 import static com.store.book.constants.TestConstants.SERIAL_NO_FOR_SECOND_BOOK;
+import static com.store.book.constants.TestConstants.SERIAL_NO_FOR_THIRD_BOOK;
 import static com.store.book.constants.TestConstants.ZERO_PERCENTAGE_OFFER;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -58,5 +62,21 @@ class OrderProcessingServiceImplTest {
 		assertAll(() -> assertEquals(PRICE_FOR_TWO_BOOKS, billedAmount.getTotalPrice()),
 				() -> assertEquals(OFFER_PERCENTAGE_FOR_TWO_BOOKS, billedAmount.getDiscountPercentage()),
 				() -> assertEquals(PRICE_AFTER_DISCOUNT_FOR_TWO_BOOKS, billedAmount.getPriceAfterDiscount()));
+	}
+	
+	@Test
+	@DisplayName(value = "Should get 10% Discount for 3 different books")
+	void shouldReturnTenPercentageDiscountForThreeDifferentBooks() {
+		Book bookOne = BookStore.fetchBySerialNo(SERIAL_NO_FOR_FIRST_BOOK);
+		Book bookTwo = BookStore.fetchBySerialNo(SERIAL_NO_FOR_SECOND_BOOK);
+		Book bookThree = BookStore.fetchBySerialNo(SERIAL_NO_FOR_THIRD_BOOK);
+		Basket basket = new Basket();
+		basket.setBooksToOrder(List.of(bookOne, bookTwo, bookThree));
+
+		OrderPrice billedAmount = orderProcessingService.getPrice(basket);
+
+		assertAll(() -> assertEquals(PRICE_FOR_THREE_BOOKS, billedAmount.getTotalPrice()),
+				() -> assertEquals(OFFER_PERCENTAGE_FOR_THREE_BOOKS, billedAmount.getDiscountPercentage()),
+				() -> assertEquals(PRICE_AFTER_DISCOUNT_FOR_THREE_BOOKS, billedAmount.getPriceAfterDiscount()));
 	}
 }
