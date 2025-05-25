@@ -1,9 +1,6 @@
 package com.store.book.service.impl;
 
-import static com.store.book.constants.AppConstants.BASE_VALUE;
-import static com.store.book.constants.AppConstants.DEFAULT_DOUBLE;
 import static com.store.book.constants.AppConstants.MINIMUM_QUANTITY;
-import static com.store.book.constants.AppConstants.PERCENTAGE_DIVISOR;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -18,36 +15,33 @@ import com.store.book.service.OrderProcessingService;
 import com.store.book.service.model.Basket;
 import com.store.book.service.model.Book;
 import com.store.book.service.model.BookQuantity;
-import com.store.book.service.model.Discount;
-import com.store.book.service.model.OrderPrice;
+import com.store.book.service.model.OrderSummary;
+import com.store.book.service.model.UniqueBookSetPrice;
 
 @Service
 public class OrderProcessingServiceImpl implements OrderProcessingService {
 
 	@Override
-	public OrderPrice getPrice(Basket basket) {
-		Integer discount = Discount.findDiscountByNumberOfBooks(basket.getBooksToOrder().size());
-		List<Set<Book>> listOfCategorizedBookSet = groupUniqueBookSetsBasedOnQuantity(basket);
-		return computeFinalPriceAfterDiscount(discount, listOfCategorizedBookSet);
+	public OrderSummary getOrderSummary(Basket basket) {
+		return new OrderSummary(groupUniqueBookSetsBasedOnQuantity(basket));
 	}
 
-	private List<Set<Book>> groupUniqueBookSetsBasedOnQuantity(Basket basket) {
-		List<Set<Book>> setOfuniqueBooks = new ArrayList<>();
+	private List<UniqueBookSetPrice> groupUniqueBookSetsBasedOnQuantity(Basket basket) {
+		List<UniqueBookSetPrice> setOfUniqueBooksWithPrice = new ArrayList<>();
 		List<BookQuantity> copyOfBooksToOrder = cloneBookQuantityDetailsList(basket);
 		while (!copyOfBooksToOrder.isEmpty()) {
-			Set<Book> bookSet = extractUniqueBooksBasedOnAvailableQuantity(copyOfBooksToOrder);
-			setOfuniqueBooks.add(bookSet);
+			setOfUniqueBooksWithPrice.add(extractUniqueBooksBasedOnAvailableQuantity(copyOfBooksToOrder));
 		}
-		return setOfuniqueBooks;
+		return setOfUniqueBooksWithPrice;
 	}
 
 	private List<BookQuantity> cloneBookQuantityDetailsList(Basket basket) {
 		return basket.getBooksToOrder().stream()
-				.map(shoppingOrder -> new BookQuantity(shoppingOrder.getBook(), shoppingOrder.getQuantity()))
+				.map(booksInOrder -> new BookQuantity(booksInOrder.getBook(), booksInOrder.getQuantity()))
 				.collect(Collectors.toList());
 	}
 
-	private Set<Book> extractUniqueBooksBasedOnAvailableQuantity(List<BookQuantity> booksToBeGrouped) {
+	private UniqueBookSetPrice extractUniqueBooksBasedOnAvailableQuantity(List<BookQuantity> booksToBeGrouped) {
 		Set<Book> uniqueBooks = new HashSet<>();
 		Integer numberOfUniqueBooks = booksToBeGrouped.size();
 
@@ -58,7 +52,7 @@ public class OrderProcessingServiceImpl implements OrderProcessingService {
 			uniqueBooks.add(book.getBook());
 			removeBookOrReduceQuantity(iterator, book);
 		}
-		return uniqueBooks;
+		return new UniqueBookSetPrice(uniqueBooks);
 	}
 
 	private void removeBookOrReduceQuantity(Iterator<BookQuantity> iterator, BookQuantity book) {
@@ -75,26 +69,6 @@ public class OrderProcessingServiceImpl implements OrderProcessingService {
 
 	private int deductOneFromQuantity(Integer totalQuantityOfBook) {
 		return totalQuantityOfBook - MINIMUM_QUANTITY;
-	}
-
-	private OrderPrice computeFinalPriceAfterDiscount(Integer discount, List<Set<Book>> listOfCategorizedBookSet) {
-		Double orderTotal = DEFAULT_DOUBLE;
-		Double discountedPrice = DEFAULT_DOUBLE;
-		for (Set<Book> bookSet : listOfCategorizedBookSet) {
-			Double totalPriceOfSet = calculateTotalPrice(bookSet);
-			orderTotal += totalPriceOfSet;
-			discountedPrice += computePriceAfterDiscount(totalPriceOfSet,
-					Discount.findDiscountByNumberOfBooks(bookSet.size()));
-		}
-		return new OrderPrice(orderTotal, discountedPrice, discount);
-	}
-
-	private Double computePriceAfterDiscount(Double orderTotal, int discountPercentage) {
-		return orderTotal * (BASE_VALUE - (discountPercentage / PERCENTAGE_DIVISOR));
-	}
-
-	private Double calculateTotalPrice(Set<Book> bookSet) {
-		return bookSet.stream().mapToDouble(Book::getPrice).sum();
 	}
 
 }

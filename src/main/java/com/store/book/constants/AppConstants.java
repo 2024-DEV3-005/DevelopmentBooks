@@ -48,8 +48,6 @@ public class AppConstants {
 
 	public static final Double BASE_VALUE = 1.0;
 
-	public static final Double DEFAULT_DOUBLE = 0.0;
-
 	public static final Integer MINIMUM_QUANTITY = 1;
 
 }

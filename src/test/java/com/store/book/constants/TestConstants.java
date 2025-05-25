@@ -20,6 +20,18 @@ public class TestConstants {
 
 	public static final Integer QUANTITY_2 = 2;
 
+	public static final Integer FIRST_SET = 0;
+
+	public static final Integer SECOND_SET = 1;
+
+	public static final Integer PRICE_FOR_ONE_BOOK = 50;
+
+	public static final Integer SINGLE_BOOK_IN_A_SET = 1;
+
+	public static final Integer TWO_BOOKS_IN_A_SET = 2;
+
+	public static final Integer OFFER_PERCENTAGE_FOR_ONE_BOOK = 0;
+
 	public static final String SERIAL_NO_FOR_FIRST_BOOK = "1";
 
 	public static final String SERIAL_NO_FOR_SECOND_BOOK = "2";
@@ -47,5 +59,7 @@ public class TestConstants {
 	public static final Double PRICE_AFTER_DISCOUNT_FOR_FOUR_BOOKS = 160.0;
 
 	public static final Double PRICE_AFTER_DISCOUNT_FOR_FIVE_BOOKS = 187.5;
+
+	public static final Double PRICE_AFTER_DISCOUNT_FOR_TWO_ELIGIBLE_AND_ONE_NORMAL_BOOK = 145.00;
 
 }
