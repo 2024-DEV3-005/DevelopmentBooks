@@ -23,6 +23,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ShoppingBasketValidator {
 
+	public static void validateShoppingBasket(ShoppingBasket shoppingBasket) {
+		validateBasketNotEmpty(shoppingBasket);
+		checkForDuplicateSerialNos(shoppingBasket);
+	}
+
 	public static void validateBasketNotEmpty(ShoppingBasket shoppingBasket) {
 		if (isBasketEmpty(shoppingBasket)) {
 			throw new EmptyBasketException(EMPTY_BASKET_PLEASE_ADD_BOOKS_TO_PROCEED);
