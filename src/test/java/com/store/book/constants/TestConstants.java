@@ -42,6 +42,12 @@ public class TestConstants {
 
 	public static final String SERIAL_NO_FOR_FIFTH_BOOK = "5";
 
+	public static final String PRICE_API = "/store/calculatePrice";
+
+	public static final String BASKET_WITH_ONE_BOOK = "{\"booksToOrder\":[{ \"serialNumber\": \"1\",\"quantity\":1}]}";
+
+	public static final String ORDER_SUMMARY_OF_CLIENT_CODE = "{\"uniqueBookSetList\":[{\"uniqueBooks\":[{\"title\":\"Clean Code\",\"authorName\":\"Robert Martin\",\"yearOfPublish\":\"2008\",\"price\":50.0}],\"discountPercentage\":0,\"orderTotal\":50.0,\"priceAfterDiscount\":50.0}],\"totalPrice\":50.0,\"finalPriceAfterDiscount\":50.0}";
+
 	public static final Double PRICE_FOR_THE_BOOK = 50.0;
 
 	public static final Double PRICE_FOR_TWO_BOOKS = 100.0;
