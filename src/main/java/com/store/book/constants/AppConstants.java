@@ -50,6 +50,8 @@ public class AppConstants {
 
 	public static final String SERIAL_NUMBER_MISSING_MESSAGE = "SerialNumber Missing in the request! Add Missing details and request again";
 
+	public static final String ORDER_QUANTITY_MISSING_MESSAGE = "Order quantity is Missing in the request! Add Missing details and request again";
+
 	public static final String DELIMITER = ",";
 
 	public static final Double PERCENTAGE_DIVISOR = 100.0;
@@ -59,5 +61,7 @@ public class AppConstants {
 	public static final Double BASE_VALUE = 1.0;
 
 	public static final Integer MINIMUM_QUANTITY = 1;
+
+	public static final Integer ZERO_QUANTITY = 0;
 
 }

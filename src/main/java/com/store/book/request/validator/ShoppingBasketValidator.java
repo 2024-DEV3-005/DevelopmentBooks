@@ -4,9 +4,12 @@ import static com.store.book.constants.AppConstants.DELIMITER;
 import static com.store.book.constants.AppConstants.DUPLICATE_BOOK_MESSAGE;
 import static com.store.book.constants.AppConstants.EMPTY_BASKET_PLEASE_ADD_BOOKS_TO_PROCEED;
 import static com.store.book.constants.AppConstants.MINIMUM_QUANTITY;
+import static com.store.book.constants.AppConstants.ORDER_QUANTITY_MISSING_MESSAGE;
 import static com.store.book.constants.AppConstants.SERIAL_NUMBER_MISSING_MESSAGE;
+import static com.store.book.constants.AppConstants.ZERO_QUANTITY;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -40,6 +43,7 @@ public final class ShoppingBasketValidator {
 	private static void checkMandatoryDetailsInBooksToOrder(ShoppingBasket shoppingBasket) {
 		for (SelectedBook bookSelected : shoppingBasket.getBooksToOrder()) {
 			validateSerialNumber(bookSelected);
+			validateBookQuantity(bookSelected);
 		}
 	}
 
@@ -47,6 +51,16 @@ public final class ShoppingBasketValidator {
 		if (StringUtils.isBlank(bookSelected.getSerialNumber())) {
 			throw new InCompleteRequestDataException(SERIAL_NUMBER_MISSING_MESSAGE);
 		}
+	}
+
+	private static void validateBookQuantity(SelectedBook bookSelected) {
+		if (isInsufficientQuantity(bookSelected)) {
+			throw new InCompleteRequestDataException(ORDER_QUANTITY_MISSING_MESSAGE);
+		}
+	}
+
+	private static boolean isInsufficientQuantity(SelectedBook bookSelected) {
+		return bookSelected.getQuantity() == null || Objects.equals(bookSelected.getQuantity(), ZERO_QUANTITY);
 	}
 
 	private static boolean isBasketEmpty(ShoppingBasket shoppingBasket) {
