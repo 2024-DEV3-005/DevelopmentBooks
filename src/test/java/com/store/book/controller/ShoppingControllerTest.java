@@ -1,6 +1,8 @@
 package com.store.book.controller;
 
 import static com.store.book.constants.TestConstants.BASKET_WITH_ONE_BOOK;
+import static com.store.book.constants.TestConstants.EMPTY_BASKET_REQUEST;
+import static com.store.book.constants.TestConstants.ERROR_EMPTY_SHOPPING_BASKET;
 import static com.store.book.constants.TestConstants.ERROR_NO_BOOK_PRESENT_WITH_GIVEN_SERIAL_NUMBER;
 import static com.store.book.constants.TestConstants.ORDER_SUMMARY_OF_CLIENT_CODE;
 import static com.store.book.constants.TestConstants.PRICE_API;
@@ -37,6 +39,13 @@ class ShoppingControllerTest {
 		mockMvc.perform(post(PRICE_API).content(UNKNOWN_SERIAL_NUMBER).contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(status().isNotFound())
 				.andExpect(content().string(ERROR_NO_BOOK_PRESENT_WITH_GIVEN_SERIAL_NUMBER));
+	}
+
+	@Test
+	@DisplayName(value = "Should Throw 'Bad request' error for empty basket requests")
+	void shouldGet400ResponseWhenEmptyRequestPassedForCalculatePriceApi() throws Exception {
+		mockMvc.perform(post(PRICE_API).content(EMPTY_BASKET_REQUEST).contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().isBadRequest()).andExpect(content().string(ERROR_EMPTY_SHOPPING_BASKET));
 	}
 
 }

@@ -32,7 +32,8 @@ public class ShoppingController {
 	@Operation(summary = "Fetch the price for books ", description = "Fetch the best price for the developement books ")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Successfully fetched the Price for the book"),
-			@ApiResponse(responseCode = "404", description = "Book not found - try with valid serial number") })
+			@ApiResponse(responseCode = "404", description = "Book not found - try with valid serial number"),
+			@ApiResponse(responseCode = "400", description = "Bad request - EmptyBasket")})
 	@PostMapping(value = "calculatePrice", produces = "application/json")
 	public ResponseEntity<OrderSummary> fetchCalculatePrice(@RequestBody ShoppingBasket basket) {
 		return ResponseEntity.status(HttpStatus.OK)

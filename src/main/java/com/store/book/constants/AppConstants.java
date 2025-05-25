@@ -44,6 +44,8 @@ public class AppConstants {
 
 	public static final String BOOK_NOT_PRESENT_TO_PROCESS = "There is no book present with Serial number: [%s]";
 
+	public static final String EMPTY_BASKET_PLEASE_ADD_BOOKS_TO_PROCEED = "Shopping basket is empty. Please add books to proceed.";
+
 	public static final Double PERCENTAGE_DIVISOR = 100.0;
 
 	public static final Double PRICE_50 = 50.0;

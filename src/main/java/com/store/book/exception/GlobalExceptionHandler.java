@@ -24,4 +24,12 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
 	}
 
+	@ExceptionHandler(EmptyBasketException.class)
+	public final ResponseEntity<ExceptionResponse> handleBadRequestException(Exception exception) {
+
+		ExceptionResponse exceptionResponse = new ExceptionResponse(exception.getMessage());
+		logger.error(exception.getMessage());
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+	}
+
 }
