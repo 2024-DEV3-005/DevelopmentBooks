@@ -1,6 +1,7 @@
 package com.store.book.service.impl;
 
 import static com.store.book.constants.TestConstants.FIRST_SET;
+import static com.store.book.constants.TestConstants.FOUR_BOOKS_IN_A_SET;
 import static com.store.book.constants.TestConstants.OFFER_PERCENTAGE_FOR_FIVE_BOOKS;
 import static com.store.book.constants.TestConstants.OFFER_PERCENTAGE_FOR_FOUR_BOOKS;
 import static com.store.book.constants.TestConstants.OFFER_PERCENTAGE_FOR_THREE_BOOKS;
@@ -10,6 +11,8 @@ import static com.store.book.constants.TestConstants.PRICE_AFTER_DISCOUNT_FOR_FO
 import static com.store.book.constants.TestConstants.PRICE_AFTER_DISCOUNT_FOR_THREE_BOOKS;
 import static com.store.book.constants.TestConstants.PRICE_AFTER_DISCOUNT_FOR_TWO_BOOKS;
 import static com.store.book.constants.TestConstants.PRICE_AFTER_DISCOUNT_FOR_TWO_ELIGIBLE_AND_ONE_NORMAL_BOOK;
+import static com.store.book.constants.TestConstants.PRICE_AFTER_DISCOUNT_FOR_TWO_SET_OF_FOUR_UNIQUE_BOOKS;
+import static com.store.book.constants.TestConstants.PRICE_FOR_EIGHT_BOOKS;
 import static com.store.book.constants.TestConstants.PRICE_FOR_FIVE_BOOKS;
 import static com.store.book.constants.TestConstants.PRICE_FOR_FOUR_BOOKS;
 import static com.store.book.constants.TestConstants.PRICE_FOR_THE_BOOK;
@@ -195,6 +198,31 @@ class OrderProcessingServiceImplTest {
 						orderSummary.getUniqueBookSetList().get(SECOND_SET).getPriceAfterDiscount()),
 				() -> assertEquals(SINGLE_BOOK_IN_A_SET,
 						orderSummary.getUniqueBookSetList().get(SECOND_SET).getUniqueBooks().size()));
+	}
+
+	@Test
+	@DisplayName(value = "Should get best Discount of 20% for each of the 2 sets of 4 unique books ")
+	void shouldGetEachTwentyPercentageDiscountForTwoSetsOfFourDifferentBooks() {
+		List<BookQuantity> bookQtyList = getBookQuantityList(Map.of(SERIAL_NO_FOR_FIRST_BOOK, QUANTITY_2,
+				SERIAL_NO_FOR_SECOND_BOOK, QUANTITY_2, SERIAL_NO_FOR_THIRD_BOOK, QUANTITY_2, SERIAL_NO_FOR_FOURTH_BOOK,
+				QUANTITY_1, SERIAL_NO_FOR_FIFTH_BOOK, QUANTITY_1));
+		Basket basket = new Basket();
+		basket.setBooksToOrder(bookQtyList);
+
+		OrderSummary orderSummary = orderProcessingService.getOrderSummary(basket);
+
+		assertAll(
+				() -> assertEquals(PRICE_AFTER_DISCOUNT_FOR_TWO_SET_OF_FOUR_UNIQUE_BOOKS,
+						orderSummary.getFinalPriceAfterDiscount()),
+				() -> assertEquals(PRICE_FOR_EIGHT_BOOKS, orderSummary.getTotalPrice()),
+				() -> assertEquals(TWO_BOOKS_IN_A_SET, orderSummary.getUniqueBookSetList().size()));
+
+		orderSummary.getUniqueBookSetList()
+				.forEach(uniqueBookSet -> assertAll("Verify discounts applied to each unique book set",
+						() -> assertEquals(PRICE_FOR_FOUR_BOOKS, uniqueBookSet.getOrderTotal()),
+						() -> assertEquals(OFFER_PERCENTAGE_FOR_FOUR_BOOKS, uniqueBookSet.getDiscountPercentage()),
+						() -> assertEquals(PRICE_AFTER_DISCOUNT_FOR_FOUR_BOOKS, uniqueBookSet.getPriceAfterDiscount()),
+						() -> assertEquals(FOUR_BOOKS_IN_A_SET, uniqueBookSet.getUniqueBooks().size())));
 	}
 
 	private List<BookQuantity> getBookQuantityList(Map<String, Integer> bookData) {
