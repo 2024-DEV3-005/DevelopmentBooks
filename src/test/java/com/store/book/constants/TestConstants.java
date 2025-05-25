@@ -46,6 +46,10 @@ public class TestConstants {
 
 	public static final String BASKET_WITH_ONE_BOOK = "{\"booksToOrder\":[{ \"serialNumber\": \"1\",\"quantity\":1}]}";
 
+	public static final String UNKNOWN_SERIAL_NUMBER = "{\"booksToOrder\":[{ \"serialNumber\": \"17\",\"quantity\":1}]}";
+
+	public static final String ERROR_NO_BOOK_PRESENT_WITH_GIVEN_SERIAL_NUMBER = "{\"message\":\"There is no book present with Serial number: [17]\"}";
+
 	public static final String ORDER_SUMMARY_OF_CLIENT_CODE = "{\"uniqueBookSetList\":[{\"uniqueBooks\":[{\"title\":\"Clean Code\",\"authorName\":\"Robert Martin\",\"yearOfPublish\":\"2008\",\"price\":50.0}],\"discountPercentage\":0,\"orderTotal\":50.0,\"priceAfterDiscount\":50.0}],\"totalPrice\":50.0,\"finalPriceAfterDiscount\":50.0}";
 
 	public static final Double PRICE_FOR_THE_BOOK = 50.0;

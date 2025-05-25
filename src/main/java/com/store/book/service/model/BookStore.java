@@ -5,6 +5,7 @@ import static com.store.book.constants.AppConstants.AUTHOR_MICHAEL_C_FEATHERS;
 import static com.store.book.constants.AppConstants.AUTHOR_ROBERT_MARTIN;
 import static com.store.book.constants.AppConstants.BOOK_FIVE;
 import static com.store.book.constants.AppConstants.BOOK_FOUR;
+import static com.store.book.constants.AppConstants.BOOK_NOT_PRESENT_TO_PROCESS;
 import static com.store.book.constants.AppConstants.BOOK_ONE;
 import static com.store.book.constants.AppConstants.BOOK_THREE;
 import static com.store.book.constants.AppConstants.BOOK_TWO;
@@ -21,6 +22,9 @@ import static com.store.book.constants.AppConstants.YEAR_2011;
 import static com.store.book.constants.AppConstants.YEAR_2017;
 
 import java.util.Map;
+import java.util.Optional;
+
+import com.store.book.exception.BookNotFoundException;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -39,7 +43,8 @@ public class BookStore {
 			);
 
 	public static Book fetchBySerialNo(String serialNumber) {
-		return bookMap.get(serialNumber);
+		return Optional.ofNullable(bookMap.get(serialNumber))
+				.orElseThrow(() -> new BookNotFoundException(String.format(BOOK_NOT_PRESENT_TO_PROCESS, serialNumber)));
 	}
 
 }

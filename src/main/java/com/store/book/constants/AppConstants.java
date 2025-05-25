@@ -42,6 +42,8 @@ public class AppConstants {
 
 	public static final String AUTHOR_MICHAEL_C_FEATHERS = "Michael C. Feathers";
 
+	public static final String BOOK_NOT_PRESENT_TO_PROCESS = "There is no book present with Serial number: [%s]";
+
 	public static final Double PERCENTAGE_DIVISOR = 100.0;
 
 	public static final Double PRICE_50 = 50.0;
