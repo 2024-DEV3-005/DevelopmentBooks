@@ -39,6 +39,8 @@ import java.util.Map.Entry;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -223,6 +225,35 @@ class OrderProcessingServiceImplTest {
 						() -> assertEquals(OFFER_PERCENTAGE_FOR_FOUR_BOOKS, uniqueBookSet.getDiscountPercentage()),
 						() -> assertEquals(PRICE_AFTER_DISCOUNT_FOR_FOUR_BOOKS, uniqueBookSet.getPriceAfterDiscount()),
 						() -> assertEquals(FOUR_BOOKS_IN_A_SET, uniqueBookSet.getUniqueBooks().size())));
+	}
+
+	@ParameterizedTest
+	@DisplayName("Should get consistently the Best OrderSummary randomised Orders")
+	@CsvSource({ "1,2,2,2,1", "1,1,2,2,2", "1,2,1,2,2", "1,2,2,1,2", "2,1,1,2,2", "2,2,1,2,1", "2,1,2,1,2",
+			"2,2,1,1,2" })
+	void shouldGetEachTwentyPercentageDiscountForTwoSetsOfFourDifferentBooks(
+			int qtyFirstBook, int qtySecondBook, int qtyThirdBook, int qtyFourthBook, int qtyFifthBook) {
+		List<BookQuantity> bookQtyList = getBookQuantityList(Map.of(SERIAL_NO_FOR_FIRST_BOOK, qtyFirstBook,
+				SERIAL_NO_FOR_SECOND_BOOK, qtySecondBook, SERIAL_NO_FOR_THIRD_BOOK, qtyThirdBook,
+				SERIAL_NO_FOR_FOURTH_BOOK, qtyFourthBook, SERIAL_NO_FOR_FIFTH_BOOK, qtyFifthBook));
+		Basket basket = new Basket();
+		basket.setBooksToOrder(bookQtyList);
+
+		OrderSummary orderSummary = orderProcessingService.getOrderSummary(basket);
+
+		assertAll(
+				() -> assertEquals(PRICE_AFTER_DISCOUNT_FOR_TWO_SET_OF_FOUR_UNIQUE_BOOKS,
+						orderSummary.getFinalPriceAfterDiscount()),
+				() -> assertEquals(PRICE_FOR_EIGHT_BOOKS, orderSummary.getTotalPrice()),
+				() -> assertEquals(TWO_BOOKS_IN_A_SET, orderSummary.getUniqueBookSetList().size()));
+
+		orderSummary.getUniqueBookSetList()
+				.forEach(uniqueBookSet -> assertAll("Verify discounts applied to each unique book set",
+						() -> assertEquals(PRICE_FOR_FOUR_BOOKS, uniqueBookSet.getOrderTotal()),
+						() -> assertEquals(OFFER_PERCENTAGE_FOR_FOUR_BOOKS, uniqueBookSet.getDiscountPercentage()),
+						() -> assertEquals(PRICE_AFTER_DISCOUNT_FOR_FOUR_BOOKS, uniqueBookSet.getPriceAfterDiscount()),
+						() -> assertEquals(FOUR_BOOKS_IN_A_SET, uniqueBookSet.getUniqueBooks().size())));
+
 	}
 
 	private List<BookQuantity> getBookQuantityList(Map<String, Integer> bookData) {

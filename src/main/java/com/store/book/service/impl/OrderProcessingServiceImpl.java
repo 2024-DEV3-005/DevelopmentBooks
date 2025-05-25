@@ -50,7 +50,7 @@ public class OrderProcessingServiceImpl implements OrderProcessingService {
 	private List<BookQuantity> cloneBookQuantityDetailsList(Basket basket) {
 		return basket.getBooksToOrder().stream()
 				.map(booksInOrder -> new BookQuantity(booksInOrder.getBook(), booksInOrder.getQuantity()))
-				.collect(Collectors.toList());
+				.sorted(Comparator.comparing(BookQuantity::getQuantity).reversed()).collect(Collectors.toList());
 	}
 
 	private UniqueBookSetPrice extractUniqueBooksBasedOnAvailableQuantity(List<BookQuantity> booksToBeGrouped,
