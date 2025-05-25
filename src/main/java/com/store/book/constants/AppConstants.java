@@ -48,6 +48,8 @@ public class AppConstants {
 
 	public static final String DUPLICATE_BOOK_MESSAGE = "Duplicate Serial number [%s] found in the order! Please Remove or Update Quantity";
 
+	public static final String SERIAL_NUMBER_MISSING_MESSAGE = "SerialNumber Missing in the request! Add Missing details and request again";
+
 	public static final String DELIMITER = ",";
 
 	public static final Double PERCENTAGE_DIVISOR = 100.0;

@@ -4,6 +4,7 @@ import static com.store.book.constants.AppConstants.DELIMITER;
 import static com.store.book.constants.AppConstants.DUPLICATE_BOOK_MESSAGE;
 import static com.store.book.constants.AppConstants.EMPTY_BASKET_PLEASE_ADD_BOOKS_TO_PROCEED;
 import static com.store.book.constants.AppConstants.MINIMUM_QUANTITY;
+import static com.store.book.constants.AppConstants.SERIAL_NUMBER_MISSING_MESSAGE;
 
 import java.util.Map;
 import java.util.function.Function;
@@ -13,6 +14,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.store.book.exception.DuplicateBookEntryException;
 import com.store.book.exception.EmptyBasketException;
+import com.store.book.exception.InCompleteRequestDataException;
 import com.store.book.request.model.SelectedBook;
 import com.store.book.request.model.ShoppingBasket;
 
@@ -25,12 +27,25 @@ public final class ShoppingBasketValidator {
 
 	public static void validateShoppingBasket(ShoppingBasket shoppingBasket) {
 		validateBasketNotEmpty(shoppingBasket);
+		checkMandatoryDetailsInBooksToOrder(shoppingBasket);
 		checkForDuplicateSerialNos(shoppingBasket);
 	}
 
 	public static void validateBasketNotEmpty(ShoppingBasket shoppingBasket) {
 		if (isBasketEmpty(shoppingBasket)) {
 			throw new EmptyBasketException(EMPTY_BASKET_PLEASE_ADD_BOOKS_TO_PROCEED);
+		}
+	}
+
+	private static void checkMandatoryDetailsInBooksToOrder(ShoppingBasket shoppingBasket) {
+		for (SelectedBook bookSelected : shoppingBasket.getBooksToOrder()) {
+			validateSerialNumber(bookSelected);
+		}
+	}
+
+	private static void validateSerialNumber(SelectedBook bookSelected) {
+		if (StringUtils.isBlank(bookSelected.getSerialNumber())) {
+			throw new InCompleteRequestDataException(SERIAL_NUMBER_MISSING_MESSAGE);
 		}
 	}
 

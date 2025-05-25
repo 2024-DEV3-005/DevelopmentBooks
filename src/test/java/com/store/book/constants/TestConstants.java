@@ -52,11 +52,15 @@ public class TestConstants {
 
 	public static final String DUPLICATE_SERIAL_NUMBERS = "{\"booksToOrder\":[{ \"serialNumber\": \"4\",\"quantity\":1},{ \"serialNumber\": \"4\",\"quantity\":1}]}";
 
+	public static final String SELECTED_BOOK_WITH_OUT_SL_NO = "{\"booksToOrder\":[{ \"serialNumber\": \"\",\"quantity\":1}]}";
+
 	public static final String ERROR_NO_BOOK_PRESENT_WITH_GIVEN_SERIAL_NUMBER = "{\"message\":\"There is no book present with Serial number: [17]\"}";
 
 	public static final String ERROR_EMPTY_SHOPPING_BASKET = "{\"message\":\"Shopping basket is empty. Please add books to proceed.\"}";
 
 	public static final String ERROR_DUPLICATE_QUERY_FOR_SAME_BOOK = "{\"message\":\"Duplicate Serial number [4] found in the order! Please Remove or Update Quantity\"}";
+
+	public static final String ERROR_MISSING_SERIAL_NUMBER = "{\"message\":\"SerialNumber Missing in the request! Add Missing details and request again\"}";
 
 	public static final String ORDER_SUMMARY_OF_CLIENT_CODE = "{\"uniqueBookSetList\":[{\"uniqueBooks\":[{\"title\":\"Clean Code\",\"authorName\":\"Robert Martin\",\"yearOfPublish\":\"2008\",\"price\":50.0}],\"discountPercentage\":0,\"orderTotal\":50.0,\"priceAfterDiscount\":50.0}],\"totalPrice\":50.0,\"finalPriceAfterDiscount\":50.0}";
 
