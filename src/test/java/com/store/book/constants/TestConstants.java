@@ -56,6 +56,8 @@ public class TestConstants {
 
 	public static final String SELECTED_BOOK_WITH_ZERO_QUANTITY = "{\"booksToOrder\":[{ \"serialNumber\": \"1\",\"quantity\":0}]}";
 
+	public static final String TWO_QUANTITY_OF_SAME_BOOK = "{\"booksToOrder\":[{ \"serialNumber\": \"3\",\"quantity\":2}]}";
+
 	public static final String ERROR_NO_BOOK_PRESENT_WITH_GIVEN_SERIAL_NUMBER = "{\"message\":\"There is no book present with Serial number: [17]\"}";
 
 	public static final String ERROR_EMPTY_SHOPPING_BASKET = "{\"message\":\"Shopping basket is empty. Please add books to proceed.\"}";
@@ -66,7 +68,9 @@ public class TestConstants {
 
 	public static final String ERROR_MISSING_ORDER_QUANTITY = "{\"message\":\"Order quantity is Missing in the request! Add Missing details and request again\"}";
 
-	public static final String ORDER_SUMMARY_OF_CLIENT_CODE = "{\"uniqueBookSetList\":[{\"uniqueBooks\":[{\"title\":\"Clean Code\",\"authorName\":\"Robert Martin\",\"yearOfPublish\":\"2008\",\"price\":50.0}],\"discountPercentage\":0,\"orderTotal\":50.0,\"priceAfterDiscount\":50.0}],\"totalPrice\":50.0,\"finalPriceAfterDiscount\":50.0}";
+	public static final String ORDER_SUMMARY_OF_CLIENT_CODE = "{\"uniqueBookSetList\":[{\"uniqueBooks\":[{\"title\":\"Clean Code\",\"authorName\":\"Robert Martin\",\"yearOfPublish\":\"2008\",\"price\":\"50.0\"}],\"discountPercentage\":0,\"orderTotal\":\"50.0\",\"priceAfterDiscount\":\"50.0\"}],\"totalPrice\":\"50.0\",\"finalPriceAfterDiscount\":\"50.0\"}";
+
+	public static final String ORDER_SUMMARY_FOR_TWO_QUANTITY_OF_SAME_BOOK = "{\"uniqueBookSetList\":[{\"uniqueBooks\":[{\"title\":\"Clean Architecture\",\"authorName\":\"Robert Martin\",\"yearOfPublish\":\"2017\",\"price\":\"50.0\"}],\"discountPercentage\":0,\"orderTotal\":\"50.0\",\"priceAfterDiscount\":\"50.0\"},{\"uniqueBooks\":[{\"title\":\"Clean Architecture\",\"authorName\":\"Robert Martin\",\"yearOfPublish\":\"2017\",\"price\":\"50.0\"}],\"discountPercentage\":0,\"orderTotal\":\"50.0\",\"priceAfterDiscount\":\"50.0\"}],\"totalPrice\":\"100.0\",\"finalPriceAfterDiscount\":\"100.0\"}";
 
 	public static final Double PRICE_FOR_THE_BOOK = 50.0;
 

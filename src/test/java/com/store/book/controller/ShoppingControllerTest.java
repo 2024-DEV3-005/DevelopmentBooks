@@ -8,10 +8,12 @@ import static com.store.book.constants.TestConstants.ERROR_EMPTY_SHOPPING_BASKET
 import static com.store.book.constants.TestConstants.ERROR_MISSING_ORDER_QUANTITY;
 import static com.store.book.constants.TestConstants.ERROR_MISSING_SERIAL_NUMBER;
 import static com.store.book.constants.TestConstants.ERROR_NO_BOOK_PRESENT_WITH_GIVEN_SERIAL_NUMBER;
+import static com.store.book.constants.TestConstants.ORDER_SUMMARY_FOR_TWO_QUANTITY_OF_SAME_BOOK;
 import static com.store.book.constants.TestConstants.ORDER_SUMMARY_OF_CLIENT_CODE;
 import static com.store.book.constants.TestConstants.PRICE_API;
 import static com.store.book.constants.TestConstants.SELECTED_BOOK_WITH_OUT_SL_NO;
 import static com.store.book.constants.TestConstants.SELECTED_BOOK_WITH_ZERO_QUANTITY;
+import static com.store.book.constants.TestConstants.TWO_QUANTITY_OF_SAME_BOOK;
 import static com.store.book.constants.TestConstants.UNKNOWN_SERIAL_NUMBER;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -75,6 +77,14 @@ class ShoppingControllerTest {
 		mockMvc.perform(
 				post(PRICE_API).content(SELECTED_BOOK_WITH_ZERO_QUANTITY).contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(status().isBadRequest()).andExpect(content().string(ERROR_MISSING_ORDER_QUANTITY));
+	}
+	
+	@Test
+	@DisplayName(value = "Should Get OrderSummary for multiple copies of same book")
+	void shouldGetOrderSummaryResponseForTwoQtyOfSameBook() throws Exception {
+		mockMvc.perform(
+				post(PRICE_API).content(TWO_QUANTITY_OF_SAME_BOOK).contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().isOk()).andExpect(content().string(ORDER_SUMMARY_FOR_TWO_QUANTITY_OF_SAME_BOOK));
 	}
 
 }

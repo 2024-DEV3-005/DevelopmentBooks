@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.store.book.mapper.ResponseObjectMapper;
 import com.store.book.request.model.ShoppingBasket;
+import com.store.book.response.model.OrderSummaryResponse;
 import com.store.book.service.OrderProcessingService;
-import com.store.book.service.model.OrderSummary;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -35,8 +35,8 @@ public class ShoppingController {
 			@ApiResponse(responseCode = "404", description = "Book not found - try with valid serial number"),
 			@ApiResponse(responseCode = "400", description = "Bad request - EmptyBasket/Duplicate Books/Missing Serial Number/InSufficient Quantity") })
 	@PostMapping(value = "calculatePrice", produces = "application/json")
-	public ResponseEntity<OrderSummary> fetchCalculatePrice(@RequestBody ShoppingBasket basket) {
+	public ResponseEntity<OrderSummaryResponse> fetchCalculatePrice(@RequestBody ShoppingBasket basket) {
 		return ResponseEntity.status(HttpStatus.OK)
-				.body(orderProcessingService.getOrderSummary(mapper.toBasket(basket)));
+				.body(mapper.toOrderSummaryResponse(orderProcessingService.getOrderSummary(mapper.toBasket(basket))));
 	}
 }
