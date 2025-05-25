@@ -14,6 +14,7 @@ import static com.store.book.constants.TestConstants.PRICE_FOR_THE_BOOK;
 import static com.store.book.constants.TestConstants.PRICE_FOR_THREE_BOOKS;
 import static com.store.book.constants.TestConstants.PRICE_FOR_TWO_BOOKS;
 import static com.store.book.constants.TestConstants.QUANTITY_1;
+import static com.store.book.constants.TestConstants.QUANTITY_2;
 import static com.store.book.constants.TestConstants.SERIAL_NO_FOR_FIFTH_BOOK;
 import static com.store.book.constants.TestConstants.SERIAL_NO_FOR_FIRST_BOOK;
 import static com.store.book.constants.TestConstants.SERIAL_NO_FOR_FOURTH_BOOK;
@@ -120,6 +121,20 @@ class OrderProcessingServiceImplTest {
 		assertAll(() -> assertEquals(PRICE_FOR_FIVE_BOOKS, billedAmount.getTotalPrice()),
 				() -> assertEquals(OFFER_PERCENTAGE_FOR_FIVE_BOOKS, billedAmount.getDiscountPercentage()),
 				() -> assertEquals(PRICE_AFTER_DISCOUNT_FOR_FIVE_BOOKS, billedAmount.getPriceAfterDiscount()));
+	}
+	
+	@Test
+	@DisplayName(value = "Two Quantities of same book not eligible for discount")
+	void shouldReturnSamePriceWithOutDiscoutForTwoCopiesOfSameBook() {
+		List<BookQuantity> bookQtyList = getBookQuantityList(Map.of(SERIAL_NO_FOR_SECOND_BOOK, QUANTITY_2));
+		Basket basket = new Basket();
+		basket.setBooksToOrder(bookQtyList);
+
+		OrderPrice billedAmount = orderProcessingService.getPrice(basket);
+
+		assertAll(() -> assertEquals(PRICE_FOR_TWO_BOOKS, billedAmount.getTotalPrice()),
+				() -> assertEquals(ZERO_PERCENTAGE_OFFER, billedAmount.getDiscountPercentage()),
+				() -> assertEquals(PRICE_FOR_TWO_BOOKS, billedAmount.getPriceAfterDiscount()));
 	}
 
 	private List<BookQuantity> getBookQuantityList(Map<String, Integer> bookData) {
