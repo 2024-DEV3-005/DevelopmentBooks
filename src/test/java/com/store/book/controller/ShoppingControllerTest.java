@@ -1,7 +1,9 @@
 package com.store.book.controller;
 
 import static com.store.book.constants.TestConstants.BASKET_WITH_ONE_BOOK;
+import static com.store.book.constants.TestConstants.DUPLICATE_SERIAL_NUMBERS;
 import static com.store.book.constants.TestConstants.EMPTY_BASKET_REQUEST;
+import static com.store.book.constants.TestConstants.ERROR_DUPLICATE_QUERY_FOR_SAME_BOOK;
 import static com.store.book.constants.TestConstants.ERROR_EMPTY_SHOPPING_BASKET;
 import static com.store.book.constants.TestConstants.ERROR_NO_BOOK_PRESENT_WITH_GIVEN_SERIAL_NUMBER;
 import static com.store.book.constants.TestConstants.ORDER_SUMMARY_OF_CLIENT_CODE;
@@ -46,6 +48,13 @@ class ShoppingControllerTest {
 	void shouldGet400ResponseWhenEmptyRequestPassedForCalculatePriceApi() throws Exception {
 		mockMvc.perform(post(PRICE_API).content(EMPTY_BASKET_REQUEST).contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(status().isBadRequest()).andExpect(content().string(ERROR_EMPTY_SHOPPING_BASKET));
+	}
+
+	@Test
+	@DisplayName(value = "Should Throw 'Bad request' when duplicate serial number present in the request")
+	void shouldGet400ResponseWhenDuplicateSerialNumberPresentInRequest() throws Exception {
+		mockMvc.perform(post(PRICE_API).content(DUPLICATE_SERIAL_NUMBERS).contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().isBadRequest()).andExpect(content().string(ERROR_DUPLICATE_QUERY_FOR_SAME_BOOK));
 	}
 
 }

@@ -17,6 +17,7 @@ public interface ResponseObjectMapper {
 
 	default Basket toBasket(ShoppingBasket source) {
 		ShoppingBasketValidator.validateBasketNotEmpty(source);
+		ShoppingBasketValidator.checkForDuplicateSerialNos(source);
 		Basket basket = new Basket();
 		List<BookQuantity> booksToOrder = new ArrayList<>();
 

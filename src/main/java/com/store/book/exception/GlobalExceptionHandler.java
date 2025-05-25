@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
 	}
 
-	@ExceptionHandler(EmptyBasketException.class)
+	@ExceptionHandler({ EmptyBasketException.class, DuplicateBookEntryException.class })
 	public final ResponseEntity<ExceptionResponse> handleBadRequestException(Exception exception) {
 
 		ExceptionResponse exceptionResponse = new ExceptionResponse(exception.getMessage());

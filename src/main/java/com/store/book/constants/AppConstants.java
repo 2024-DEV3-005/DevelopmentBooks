@@ -46,6 +46,10 @@ public class AppConstants {
 
 	public static final String EMPTY_BASKET_PLEASE_ADD_BOOKS_TO_PROCEED = "Shopping basket is empty. Please add books to proceed.";
 
+	public static final String DUPLICATE_BOOK_MESSAGE = "Duplicate Serial number [%s] found in the order! Please Remove or Update Quantity";
+
+	public static final String DELIMITER = ",";
+
 	public static final Double PERCENTAGE_DIVISOR = 100.0;
 
 	public static final Double PRICE_50 = 50.0;
